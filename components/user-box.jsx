@@ -8,6 +8,7 @@ import {
   Divider,
 } from "@mantine/core";
 import { BsChevronRight } from "react-icons/bs";
+import Link from "next/link";
 
 const UserBox = ({ user, place, loading }) => {
   return (
@@ -23,7 +24,7 @@ const UserBox = ({ user, place, loading }) => {
         </Grid.Col>
         {place != "nav" && (
           <Grid.Col span={1}>
-            <ActionIcon color="primary" component="a" href="/home">
+            <ActionIcon color="primary" component={Link} href="/home">
               <BsChevronRight />
             </ActionIcon>
           </Grid.Col>

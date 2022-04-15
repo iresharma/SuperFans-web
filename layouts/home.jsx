@@ -13,6 +13,9 @@ import { useUser } from "@auth0/nextjs-auth0";
 import UserBox from "../components/user-box";
 import { FaRegMoon } from "react-icons/fa";
 import { Link } from "next/link";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0";
+
+export const getServerSideProps = withPageAuthRequired();
 
 import styles from "../styles/layouts/home.module.scss";
 
