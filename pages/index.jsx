@@ -4,7 +4,8 @@ import { useUser } from "@auth0/nextjs-auth0";
 import { Loader, Button, useMantineColorScheme } from "@mantine/core";
 import UserBox from "../components/user-box";
 
-export default function Home() {
+export default function Home({ resp }) {
+  console.log(resp);
   const { user, error, loading } = useUser();
   const { colorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";

@@ -1,6 +1,7 @@
 import HomeLayout from "../../layouts/home";
-import { Grid } from "@mantine/core";
+import { Grid, Pagination } from "@mantine/core";
 import CommunityBox from "../../components/community-box";
+import axios from "axios";
 
 const navItems = [
   {
@@ -50,17 +51,63 @@ const communities = [
   },
 ];
 
-const Home = () => {
+export async function getServerSideProps(context) {
+  try {
+    console.log(process.env.HOST_URI + "/api/login");
+    const response = await axios.get(process.env.HOST_URI + "/api/login");
+    const data = response.data;
+    return {
+      props: {
+        data: data.name,
+        community: [
+          {
+            id: "34",
+            name: "Superfans!",
+            desc: "Velit officia Lorem voluptate excepteur nostrud voluptate eiusmod non occaecat non cupidatat aute ea. Ullamco dolor ea aute laborum esse cupidatat adipisicing voluptate. Qui cupidatat commodo pariatur excepteur ad nisi. Id et minim amet aute.",
+            online: 23,
+          },
+        ],
+      },
+    };
+  } catch (err) {
+    if (err.code === 401) {
+      return { redirect: "/" };
+    }
+  }
+  return {};
+}
+
+const Home = (props) => {
+  if (props.redirect) {
+    window.location.pathname = "/";
+  }
+
   return (
     <div className="home">
       <h1>Communities</h1>
       <Grid gutter="xs">
-        {communities.map((community) => (
-          <Grid.Col key={community.id} span={4}>
-            <CommunityBox community={community} />
+        {props.community.map((comm) => (
+          <Grid.Col key={comm.id} span={4}>
+            <CommunityBox community={comm} />
           </Grid.Col>
         ))}
       </Grid>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          padding: "1em",
+          width: "100%",
+        }}
+      >
+        <Pagination
+          total={10}
+          color="primary"
+          size="xl"
+          radius="lg"
+          withControls={false}
+        />
+      </div>
     </div>
   );
 };
